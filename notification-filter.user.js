@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Devrant Notification Filter
 // @namespace    https://devrant.com/
-// @version      0.3
+// @version      0.4
 // @description  Add category filters to notifications
 // @author       7twin
 // @match        https://devrant.com/notifs*
@@ -109,7 +109,7 @@ function filter_notifications(){
 }
 
 function override_hyperlinks(){
-    $('a').on('click', function(e) {
+    $('a.notif-link').off('click').on('click', function(e) {
         if($(this).attr("href").indexOf("/rants/") !== -1){
             e.preventDefault();
             if(filter === "unread"){
