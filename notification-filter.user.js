@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Devrant Notification Filter
 // @namespace    https://devrant.com/
-// @version      0.2
+// @version      0.3
 // @description  Add category filters to notifications
 // @author       7twin
 // @match        https://devrant.com/notifs*
@@ -10,6 +10,7 @@
 // @grant        GM_getValue
 // @grant        GM_addValueChangeListener
 // @grant        GM_addStyle
+// @run-at       document-end
 // ==/UserScript==
 
 // ------ config ------
