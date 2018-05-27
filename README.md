@@ -37,3 +37,4 @@ Then install the user-script here: https://github.com/7twin/devrant-notification
 # ToDo
 
 - [ ] add custom clear buttons for each category
+- [ ] add "Me" tab, where only all notifications targetting the user are shown
