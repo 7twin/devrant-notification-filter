@@ -36,4 +36,4 @@ Then install the user-script here: https://github.com/7twin/devrant-notification
 
 # ToDo
 
-- [ ] add `location.reload()` on clear button click
+- [ ] add custom clear buttons for each category
