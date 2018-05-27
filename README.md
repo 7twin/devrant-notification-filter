@@ -39,4 +39,4 @@ Then install the user-script here: https://github.com/7twin/devrant-notification
 - [ ] add custom clear buttons for each category
 - [ ] add "Me" tab, where only all notifications targetting the user are shown
 - [ ] add filters ("++'s","mentions",..) to the "unread" tab
-- [ ] add detection option for "pinned/subscribed comments" in the "comments" tab, which detects if you posted a "📌" or "." to subscribe to the comments
+- [ ] add detection option for "pinned/subscribed comments" in the "comments" tab, which detects if you posted a "📌" or "." to subscribe to the comments (maybe change the notification text to say "New comments on a rant you subscribed to!")
