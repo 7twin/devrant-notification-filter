@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Devrant Notification Filter
 // @namespace    https://devrant.com/
-// @version      0.4
+// @version      0.5
 // @description  Add category filters to notifications
 // @author       7twin
 // @match        https://devrant.com/notifs*
@@ -227,6 +227,8 @@ function init_broadcast_listener(){
                   }
                }
            });
+
+           filter_notifications();
         }
     });
 }
