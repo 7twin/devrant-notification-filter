@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Devrant Notification Filter
 // @namespace    https://devrant.com/
-// @version      0.5
+// @version      0.6
 // @description  Add category filters to notifications
 // @author       7twin
 // @match        https://devrant.com/notifs*
