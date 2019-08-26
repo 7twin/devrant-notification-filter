@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Devrant Notification Filter
 // @namespace    https://devrant.com/
-// @version      0.6
+// @version      0.8
 // @description  Add category filters to notifications
 // @author       7twin
 // @match        https://devrant.com/notifs*
@@ -40,7 +40,7 @@ function reset_unread(){
 }
 
 function set_unread_states(){
-    if(plusplus_unread === true || mentions_unread === true || comments_unread === true || subs_unread === true){
+    if(plusplus_unread === true || mentions_unread === true || comments_unread === true || subs_unread === true || me_unread === true){
         $("#all_link").css("color","#7CC8A2");
         $("#unread_link").css("color","#7CC8A2");
     }else{
@@ -85,10 +85,6 @@ function check_unread(notification){
             plusplus_unread = true;
         }
 
-        if(notification.text().indexOf("comments on a rant you commented on") !== -1 || notification.text().indexOf("commented on your rant") !== -1){
-            comments_unread = true;
-        }
-
         if(notification.text().indexOf("mentioned you in a comment") !== -1){
             mentions_unread = true;
         }
@@ -100,6 +96,10 @@ function check_unread(notification){
         if(notification.text().indexOf("commented on your rant") !== -1 || notification.text().indexOf("mentioned you in a comment") !== -1){
             me_unread = true;
         }
+
+        if(notification.text().indexOf("comments on a rant you commented on") !== -1 || notification.text().indexOf("commented on your rant") !== -1){
+            comments_unread = true;
+        }
     }
 }
 
@@ -108,14 +108,16 @@ function filter_notifications(){
     $("span.notif-body-text").each(function(){
         check_unread($(this));
         if(filter !== false){
-            if($(this).text().indexOf(filter) !== -1){
+            if(filter === "unread" && $(this).closest("li").hasClass("notif-new")){
+                $(this).closest("li").show();
+            }else if(filter === "me" && $(this).closest("li").hasClass("notif-new") && ($(this).text().indexOf("commented on your rant") !== -1 || $(this).text().indexOf("mentioned you in a comment") !== -1)){
+                $(this).closest("li").show();
+            }else if($(this).text().indexOf(filter) !== -1 && filter !== "me"){
                 if(show_read === false && !$(this).closest("li").hasClass("notif-new") && filter !== "all"){
                     $(this).closest("li").hide();
                 }else{
                     $(this).closest("li").show();
                 }
-            }else if(filter === "unread" && $(this).closest("li").hasClass("notif-new")){
-                $(this).closest("li").show();
             }else{
                 $(this).closest("li").hide();
             }
