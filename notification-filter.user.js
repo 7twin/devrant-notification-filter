@@ -10,13 +10,13 @@
 // @grant        GM_getValue
 // @grant        GM_addValueChangeListener
 // @grant        GM_addStyle
-// @run-at       document-end
+// @run-at       document-start
 // ==/UserScript==
 
 // ------ config ------
 
-var show_read = true;
-var default_unread_filter = true;
+var show_read = false; // show read notifications in other tabs than "all"?
+var default_unread_filter = true; // should the unread page be default shown?
 
 // ------ config end ------
 
@@ -29,12 +29,14 @@ var plusplus_unread = false;
 var mentions_unread = false;
 var comments_unread = false;
 var subs_unread = false;
+var me_unread = false;
 
 function reset_unread(){
     plusplus_unread = false;
     mentions_unread = false;
     comments_unread = false;
     subs_unread = false;
+    me_unread = false;
 }
 
 function set_unread_states(){
@@ -69,18 +71,34 @@ function set_unread_states(){
     }else{
         $("#subs_link").css("color","rgba(255,255,255,0.7)");
     }
+
+    if(me_unread === true){
+        $("#me_link").css("color","#7CC8A2");
+    }else{
+        $("#me_link").css("color","rgba(255,255,255,0.7)");
+    }
 }
 
 function check_unread(notification){
     if(notification.closest("li").hasClass("notif-new")){
         if(notification.text().indexOf("++'d your comment") !== -1 || notification.text().indexOf("++'d your rant") !== -1){
             plusplus_unread = true;
-        }else if(notification.text().indexOf("comments on a rant you commented on") !== -1 || notification.text().indexOf("commented on your rant") !== -1){
+        }
+
+        if(notification.text().indexOf("comments on a rant you commented on") !== -1 || notification.text().indexOf("commented on your rant") !== -1){
             comments_unread = true;
-        }else if(notification.text().indexOf("mentioned you in a comment") !== -1){
+        }
+
+        if(notification.text().indexOf("mentioned you in a comment") !== -1){
             mentions_unread = true;
-        }else if(notification.text().indexOf("posted a new rant") !== -1){
+        }
+
+        if(notification.text().indexOf("posted a new rant") !== -1){
             subs_unread = true;
+        }
+
+        if(notification.text().indexOf("commented on your rant") !== -1 || notification.text().indexOf("mentioned you in a comment") !== -1){
+            me_unread = true;
         }
     }
 }
@@ -91,7 +109,7 @@ function filter_notifications(){
         check_unread($(this));
         if(filter !== false){
             if($(this).text().indexOf(filter) !== -1){
-                if(show_read === false && !$(this).closest("li").hasClass("notif-new")){
+                if(show_read === false && !$(this).closest("li").hasClass("notif-new") && filter !== "all"){
                     $(this).closest("li").hide();
                 }else{
                     $(this).closest("li").show();
@@ -137,6 +155,8 @@ function set_active_filter_badge(filter_index){
         $("#subs_link").addClass("notif-selected");
     }else if(filter_index === "unread"){
         $("#unread_link").addClass("notif-selected");
+    }else if(filter_index === "me"){
+        $("#me_link").addClass("notif-selected");
     }
 }
 
@@ -153,6 +173,8 @@ function set_active_filter(filter_index){
         filter = "posted a new rant";
     }else if(filter_index === "unread"){
         filter = "unread";
+    }else if(filter_index === "me"){
+        filter = "me";
     }
 
     set_active_filter_badge(filter_index);
@@ -189,6 +211,11 @@ function bind_filter_links(){
         e.preventDefault();
         set_active_filter("subs");
     });
+
+    $('#me_link').on('click', function(e) {
+        e.preventDefault();
+        set_active_filter("me");
+    });
 }
 
 function inject_filters(){
@@ -196,8 +223,9 @@ function inject_filters(){
         <div class="notif-types">
             <a href="#" `+((default_unread_filter === false) ? 'class="notif-selected"' : '')+` id="all_link">All</a>
             <a href="#" `+((default_unread_filter === true) ? 'class="notif-selected"' : '')+` id="unread_link">Unread</a>
+             <a href="#" id="me_link">Me</a>
             <a href="#" id="plusplus_link">++'s</a>
-            <a href="#" id="mentions_link">Mentions</a>
+            <a href="#" id="mentions_link">@'s</a>
             <a href="#" id="comments_link">Comments</a>
             <a href="#" id="subs_link">Subs</a>
         </div>`;
