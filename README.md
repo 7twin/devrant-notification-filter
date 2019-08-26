@@ -22,7 +22,8 @@ Add category filters to devrant notifications
 # Screenshots
 
 ## Notifications
-![image](https://user-images.githubusercontent.com/32747235/40572692-e7033114-60b2-11e8-80cb-c3e8f38fde8d.png)
+![image](https://user-images.githubusercontent.com/32747235/63718007-6ca6c480-c7fe-11e9-9650-c15b00776ef7.png)
+
 
 # Download
 Download tampermonkey:
